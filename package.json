@@ -1,0 +1,79 @@
+{
+ "name": "node-books-api",
+ "version": "1.0.0",
+ "description": "Simple books API made with nodejs, express and mongoDB",
+ "main": "app.js",
+ "scripts": {
+  "test": "test",
+  "start": "nodemon start src/app.js"
+ },
+ "keywords": [
+  "library",
+  "book",
+  "author"
+ ],
+ "author": "Hristijan Boshkovski",
+ "license": "ISC",
+ "dependencies": {
+  "body-parser": "^1.19.0",
+  "express": "^4.17.1",
+  "express-validator": "^6.4.0",
+  "mysql2": "^2.1.0",
+  "sequelize": "^5.21.6"
+ },
+ "devDependencies": {
+  "nodemon": "^2.0.3",
+  "xo": "^0.29.0"
+ },
+ "xo": {
+  "prettier": true,
+  "rules": {
+   "unicorn/filename-case": [
+    "warn",
+    {
+     "case": "kebabCase"
+    }
+   ],
+   "camelcase": [
+    "warn",
+    {
+     "properties": "always"
+    }
+   ],
+   "linebreak-style": 0,
+   "operator-linebreak": 0,
+   "unicorn/catch-error-name": "warn",
+   "radix": "warn",
+   "no-negated-condition": "warn",
+   "no-cond-assign": "warn",
+   "no-constant-condition": "warn",
+   "no-unused-vars": "warn",
+   "no-use-before-define": "warn",
+   "global-require": "warn",
+   "no-var": "warn",
+   "no-dupe-args": "warn",
+   "no-empty": "warn",
+   "no-empty-function": "warn",
+   "no-eval": "warn",
+   "no-unreachable": "warn",
+   "curly": "warn",
+   "default-case": "warn",
+   "default-param-last": "warn",
+   "no-else-return": "warn",
+   "no-multi-spaces": "warn",
+   "no-new-wrappers": "warn",
+   "prefer-const": "warn",
+   "import/order": "warn",
+   "new-cap": "warn",
+   "no-useless-concat": "warn",
+   "no-mixed-spaces-and-tabs": "warn",
+   "array-callback-return": "warn",
+   "one-var": "warn",
+   "no-eq-null": "warn",
+   "eqeqeq": "warn",
+   "no-lonely-if": "warn",
+   "no-throw-literal": "warn",
+   "capitalized-comments": 0
+  }
+ }
+}
