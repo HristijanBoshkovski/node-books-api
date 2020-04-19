@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MYSQL_USER": "root",
+        "MYSQL_PASSWORD": "somepassword",
+        "MYSQL_DATABASE": "node-books-api"
+    }
+}
