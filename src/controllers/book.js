@@ -83,7 +83,7 @@ exports.getBook = async (req, res, next) => {
             title: book.title,
             description: book.description,
             numberOfPages: book.numberOfPages,
-            publishedOn: book.publishedOn.toIso,
+            publishedOn: book.publishedOn,
             createdAt: book.createdAt,
             updatedAt: book.updatedAt,
             author: book.author,
