@@ -8,70 +8,26 @@ const Type = require('../models/type');
 
 exports.getBooks = async (req, res, next) => {
     try {
-        const books = await Book.findAll();
-        let author = {};
-        let publisher = {};
-        let type = {};
-        let genre = {};
-        let finalResult = [];
+        const books = await Book.findAll({
+            include: [
+                {
+                    model: Type
+                },
+                {
+                    model: Genre
+                },
+                {
+                    model: Author
+                },
+                {
+                    model: Publisher
+                }
+            ]
+        });
+
+        let booksList = [];
 
         for (const book of books) {
-            author = await Author.findOne(
-                {
-                    where: {
-                        id: book.authorId
-                    }
-                }
-            );
-
-            if (!author) {
-                const error = new Error('Author not found, please create the author before creating a book.');
-                error.statusCode = 404;
-                next(error);
-            }
-
-            publisher = await Publisher.findOne(
-                {
-                    where: {
-                        id: book.publisherId
-                    }
-                }
-            );
-
-            if (!publisher) {
-                const error = new Error('Publisher not found, please create the publisher before creating a book.');
-                error.statusCode = 404;
-                next(error);
-            }
-
-            type = await Type.findOne(
-                {
-                    where: {
-                        id: book.typeId
-                    }
-                }
-            );
-
-            if (!type) {
-                const error = new Error('Type not found, please create the type before creating a book.');
-                error.statusCode = 404;
-                next(error);
-            }
-
-            genre = await Genre.findOne(
-                {
-                    where: {
-                        id: book.genreId
-                    }
-                }
-            );
-
-            if (!genre) {
-                const error = new Error('Genre not found, please create the genre before creating a book.');
-                error.statusCode = 404;
-                next(error);
-            }
-
             const result = {
                 id: book.id,
                 title: book.title,
@@ -80,18 +36,18 @@ exports.getBooks = async (req, res, next) => {
                 publishedOn: book.publishedOn,
                 createdAt: book.createdAt,
                 updatedAt: book.updatedAt,
-                author: author,
-                publisher: publisher,
-                type: type,
-                genre: genre
+                type: book.type,
+                genre: book.genre,
+                author: book.author,
+                publisher: book.publisher
             };
-
-            finalResult.push(result);
+        
+            booksList.push(result);
         }
 
         res.status(200).json({
             message: 'Books fetched successfully',
-            books: finalResult
+            books: booksList
         });
     } catch (err) {
         if (!err.statusCode) {
@@ -105,76 +61,35 @@ exports.getBooks = async (req, res, next) => {
 exports.getBook = async (req, res, next) => {
     const bookId = req.params.bookId;
     try {
-        const book = await Book.findByPk(bookId);
-
-        const author = await Author.findOne(
-            {
-                where: {
-                    id: book.authorId
+        const book = await Book.findByPk(bookId, {
+            include: [
+                {
+                    model: Type
+                },
+                {
+                    model: Genre
+                },
+                {
+                    model: Author
+                },
+                {
+                    model: Publisher
                 }
-            }
-        );
-
-        if (!author) {
-            const error = new Error('Author not found, please create the author before creating a book.');
-            error.statusCode = 404;
-            next(error);
-        }
-
-        const publisher = await Publisher.findOne(
-            {
-                where: {
-                    id: book.publisherId
-                }
-            }
-        );
-
-        if (!publisher) {
-            const error = new Error('Publisher not found, please create the publisher before creating a book.');
-            error.statusCode = 404;
-            next(error);
-        }
-
-        const type = await Type.findOne(
-            {
-                where: {
-                    id: book.typeId
-                }
-            }
-        );
-
-        if (!type) {
-            const error = new Error('Type not found, please create the type before creating a book.');
-            error.statusCode = 404;
-            next(error);
-        }
-
-        const genre = await Genre.findOne(
-            {
-                where: {
-                    id: book.genreId
-                }
-            }
-        );
-
-        if (!genre) {
-            const error = new Error('Genre not found, please create the genre before creating a book.');
-            error.statusCode = 404;
-            next(error);
-        }
+            ]
+        });
 
         const result = {
             id: book.id,
             title: book.title,
             description: book.description,
             numberOfPages: book.numberOfPages,
-            publishedOn: book.publishedOn,
+            publishedOn: book.publishedOn.toIso,
             createdAt: book.createdAt,
             updatedAt: book.updatedAt,
-            author: author,
-            publisher: publisher,
-            type: type,
-            genre: genre
+            author: book.author,
+            publisher: book.publisher,
+            type: book.type,
+            genre: book.genre
         };
 
         res.status(200).json({

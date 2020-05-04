@@ -44,11 +44,15 @@ app.use((error, req, res, next) => {
 });
 
 Author.hasMany(Book);
+Book.belongsTo(Author);
 Publisher.hasMany(Book);
+Book.belongsTo(Publisher);
 Type.hasMany(Book);
+Book.belongsTo(Type);
 Genre.hasMany(Book);
+Book.belongsTo(Genre);
 
-sequelize.sync()
+sequelize.sync({alter: true})
     .then(result => {
         app.listen(8023);
     })
